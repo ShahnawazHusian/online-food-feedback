@@ -1,8 +1,8 @@
-import subprocess
 import os
+import subprocess
 
 def test_dvc_repro_runs_successfully():
-    project_path = os.path.join(os.getcwd(), "ONLINE-FOOD-FEEDBACK")
+    project_path = os.getcwd()   # don’t append extra folder
 
     result = subprocess.run(
         ["dvc", "repro"],
@@ -11,11 +11,6 @@ def test_dvc_repro_runs_successfully():
         text=True
     )
 
-    # Always print logs so GitHub Actions shows them
-    print("=== STDOUT ===")
-    print(result.stdout)
-    print("=== STDERR ===")
-    print(result.stderr)
-
-    # Assert DVC ran successfully
-    assert result.returncode == 0, "dvc repro failed"
+    print("STDOUT:", result.stdout)
+    print("STDERR:", result.stderr)
+    assert result.returncode == 0, f"DVC repro failed:\n{result.stderr}"
