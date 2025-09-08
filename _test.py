@@ -2,10 +2,12 @@ import subprocess
 import os
 
 def test_dvc_repro_runs_successfully():
-    # Go to the folder where dvc.yaml is located
-    project_path = os.path.join(os.getcwd(), "ONLINE-FOOD-FEEDBACK")
+    # GitHub Actions will checkout the repo here
+    repo_root = os.path.join(os.getcwd(), "online-food-feedback")
 
-    # Run `dvc repro`
+    # But since _test.py is already in repo root, just use cwd directly
+    project_path = os.getcwd()
+
     result = subprocess.run(
         ["dvc", "repro"],
         cwd=project_path,
@@ -13,9 +15,8 @@ def test_dvc_repro_runs_successfully():
         text=True
     )
 
-    # Debug info (only prints if test fails)
+    print("CWD:", project_path)
     print("STDOUT:", result.stdout)
     print("STDERR:", result.stderr)
 
-    # Assert DVC ran successfully
-    assert result.returncode == 0, "dvc repro failed"
+    assert result.returncode == 0, f"dvc repro failed\n{result.stderr}"
