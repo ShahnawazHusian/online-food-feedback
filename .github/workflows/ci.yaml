@@ -10,24 +10,26 @@ on:
 
 jobs:
   test:
-    runs-on: windows-latest
+    runs-on: windows-latest   # fixed typo
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.9'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install pytest dvc dvclive click 
-        pip install -r requirements.txt
-        
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest dvc dvclive click 
+          pip install -r requirements.txt
 
-    - name: Run tests
-      run: |
-        pytest _test.py
+      - name: Pull DVC data (if needed)
+        run: |
+          dvc pull || echo "No DVC remote or data to pull"
+
+      - name: Run tests
+        run: pytest _test.py
