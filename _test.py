@@ -1,9 +1,11 @@
-import os
 import subprocess
+import os
 
 def test_dvc_repro_runs_successfully():
-    project_path = os.getcwd()   # don’t append extra folder
+    # Go to the folder where dvc.yaml is located
+    project_path = os.path.join(os.getcwd(), "online food")  # Adjust if needed
 
+    # Run `dvc repro`
     result = subprocess.run(
         ["dvc", "repro"],
         cwd=project_path,
@@ -11,6 +13,9 @@ def test_dvc_repro_runs_successfully():
         text=True
     )
 
+    # Debug info (only prints if test fails)
     print("STDOUT:", result.stdout)
     print("STDERR:", result.stderr)
-    assert result.returncode == 0, f"DVC repro failed:\n{result.stderr}"
+
+    # Assert DVC ran successfully
+    assert result.returncode == 0, "dvc repro failed"

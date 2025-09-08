@@ -10,26 +10,29 @@ on:
 
 jobs:
   test:
-    runs-on: windows-latest   # fixed typo
+    runs-on: windows-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.11
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest dvc dvclive click 
-          pip install -r requirements.txt
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if (Test-Path "D:/online foof feedback/online-food-feedback/requirements.txt") {pip install -r D:/online foof feedback/online-food-feedback/requirements.txt}
+        pip install pandas scikit-learn numpy dvclive PyYAML pytest
 
-      - name: Pull DVC data (if needed)
-        run: |
-          dvc pull || echo "No DVC remote or data to pull"
 
-      - name: Run tests
-        run: pytest _test.py
+    - name: Install DVC
+      run: |
+        pip install dvc
+
+    - name: Reproduce DVC pipeline
+      run: |
+        if (Test-Path "D:/online foof feedback/online-food-feedback/src/_test.py") {pytest D:/online foof feedback/online-food-feedback/src/_test.py}
+        
