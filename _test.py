@@ -3,7 +3,7 @@ import os
 
 def test_dvc_repro_runs_successfully():
     # Go to the folder where dvc.yaml is located
-    project_path = os.path.join(os.getcwd(), "online food")  # Adjust if needed
+    project_path = os.path.join(os.getcwd(), "ONLINE-FOOD-FEEDBACK")
 
     # Run `dvc repro`
     result = subprocess.run(
