@@ -1,0 +1,39 @@
+schema: '2.0'
+stages:
+  model_training:
+    cmd: python src/model_training.py
+    deps:
+    - path: data/interim
+      hash: md5
+      md5: f56d7d19180eb162e7fe0b4d6b50c9b5.dir
+      size: 27488
+      nfiles: 2
+    - path: src/model_training.py
+      hash: md5
+      md5: 421a3f4a36d5d6c34ed0fe29777cd58a
+      size: 4922
+    params:
+      params.yaml:
+        model_training.n_estimators: 100
+        model_training.random_state: 42
+    outs:
+    - path: models/model.pkl
+      hash: md5
+      md5: 9d6768bf6156e9fd612c84e8f92d61bd
+      size: 159660
+  model_evaluation:
+    cmd: python src/model_evaluation.py
+    deps:
+    - path: models/model.pkl
+      hash: md5
+      md5: 9d6768bf6156e9fd612c84e8f92d61bd
+      size: 159660
+    - path: src/model_evaluation.py
+      hash: md5
+      md5: eb4d03ac0f2d258395a1b87edfc27e15
+      size: 4562
+    outs:
+    - path: report/metrics.json
+      hash: md5
+      md5: 483cd64c9e2105501bbb068b38d82c9f
+      size: 145
