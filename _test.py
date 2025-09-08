@@ -2,11 +2,7 @@ import subprocess
 import os
 
 def test_dvc_repro_runs_successfully():
-    # GitHub Actions will checkout the repo here
-    repo_root = os.path.join(os.getcwd(), "online-food-feedback")
-
-    # But since _test.py is already in repo root, just use cwd directly
-    project_path = os.getcwd()
+    project_path = os.path.join(os.getcwd(), "ONLINE-FOOD-FEEDBACK")
 
     result = subprocess.run(
         ["dvc", "repro"],
@@ -15,8 +11,11 @@ def test_dvc_repro_runs_successfully():
         text=True
     )
 
-    print("CWD:", project_path)
-    print("STDOUT:", result.stdout)
-    print("STDERR:", result.stderr)
+    # Always print logs so GitHub Actions shows them
+    print("=== STDOUT ===")
+    print(result.stdout)
+    print("=== STDERR ===")
+    print(result.stderr)
 
-    assert result.returncode == 0, f"dvc repro failed\n{result.stderr}"
+    # Assert DVC ran successfully
+    assert result.returncode == 0, "dvc repro failed"
